@@ -1,0 +1,169 @@
+﻿@using Microsoft.AspNetCore.Http
+@using ASTSoft.Desarrollos.Extensions
+@inject IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json
+@using Services.Messaging.ViewModels.AST_Usuarios;
+@{
+    var userInfo = JsonConvert.DeserializeObject<AST_UsuariosView>(HttpContextAccessor.HttpContext.Session.GetString("userInfo"));
+}
+
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
+        <div class="sidebar-brand-text mx-3" style="font-size: 15px;">CONDEFA WMS</div>
+    </a>
+
+
+    <div class="sidebar-heading mt-3">
+        <span>Áreas</span>
+    </div>
+
+    <hr class="sidebar-divider">
+
+    <li class="nav-item active">
+        <a class="nav-link" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-fw fa-home"></i>
+            <span>Inicio</span>
+        </a>
+    </li>
+
+    @if (userInfo.AST_Supervisor)
+    {
+        <li class="nav-item active">
+            <a class="nav-link" asp-controller="Redespacho" asp-action="Index">
+                <i class="fas fa-undo-alt"></i>
+                <span>Re despacho</span>
+            </a>
+        </li>
+    }
+
+    <li class="nav-item active">
+        <a class="nav-link" asp-controller="Consulta" asp-action="Index">
+            <i class="fas fa-info"></i>
+            <span>Consulta articulos</span>
+        </a>
+    </li>
+
+    @if (userInfo.AST_Supervisor)
+    {
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#SERVICIO" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cogs"></i>
+                <span>
+                    Procesos
+                </span>
+            </a>
+            <div id="SERVICIO" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded" style="color:gray;">
+
+                    <a class="nav-link" style="color:gray;" asp-controller="Alisto" asp-action="Index">
+                        <i class="fas fa-warehouse" style="color:gray;"></i>
+                        <span>Procesos</span>
+                    </a>
+                    <a class="nav-link" style="color:gray;" asp-controller="Despacho" asp-action="Index">
+                        <i class="fas fa-warehouse" style="color:gray;"></i>
+                        <span>Despacho</span>
+                    </a>
+                    <a class="nav-link" style="color:gray;" asp-controller="Alisto" asp-action="Historial">
+                        <i class="fas fa-list" style="color:gray;"></i>
+                        <span>Historial</span>
+                    </a>
+
+                </div>
+            </div>
+        </li>
+    }
+
+    <li class="nav-item active">
+        <a class="nav-link" asp-controller="ReciboMercaderia" asp-action="Index">
+            <i class="fas fa-receipt"></i>
+            <span>Recibo de Mercadería</span>
+        </a>
+    </li>
+
+    @if (userInfo.AST_Supervisor)
+    {
+        <div class="sidebar-heading mt-3">
+            <span>Aprobaciones y rutas</span>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <li class="nav-item active">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#aprobacion" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-route"></i>
+                <span>
+                    Aprobaciones y rutas
+                </span>
+            </a>
+            <div id="aprobacion" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded" style="color:gray;">
+
+                    <a class="nav-link" style="color:gray;" asp-controller="Rutas" asp-action="Aprobaciones">
+                        <i class="fas fa-check-double" style="color:gray;"></i>
+                        <span>Aprobación</span>
+                    </a>
+
+                    <a class="nav-link" style="color:gray;" asp-controller="Rutas" asp-action="Index">
+                        <i class="fas fa-map-marked-alt" style="color:gray;"></i>
+                        <span>Rutas</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+
+    }
+
+    <hr class="sidebar-divider">
+
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#etiquetas" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-print"></i>
+            <span>
+                Etiquetas
+            </span>
+        </a>
+        <div id="etiquetas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded" style="color:gray;">
+                @if(userInfo.AST_Bultos){
+                    <a class="nav-link" style="color:gray;" asp-controller="Etiquetas" asp-action="Index">
+                        <i class="fas fa-check-double" style="color:gray;"></i>
+                        <span>Empaque</span>
+                    </a>
+                }
+                @if(userInfo.AST_impresion){
+                    <a class="nav-link" style="color:gray;" asp-controller="DataMatrix" asp-action="Index">
+                        <i class="fas fa-plus" style="color:gray;"></i>
+                        <span>Etiquetado</span>
+                    </a>
+                }
+                @if(userInfo.AST_Reimpresion){
+                    <a class="nav-link" style="color:gray;" asp-controller="DataMatrix" asp-action="Reimprimir">
+                        <i class="fas fa-print" style="color:gray;"></i>
+                        <span>Reimpresión datamatrix</span>
+                    </a>
+                }
+            </div>
+        </div>
+    </li>
+
+    @if (userInfo.AST_Admin)    
+    {
+        <div class="sidebar-heading mt-3">
+            <span>Mantenimiento Usuarios</span>
+        </div>
+        <hr class="sidebar-divider">
+
+        <li class="nav-item active">
+            <a class="nav-link" asp-controller="AST_Usuarios" asp-action="Index">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>
+    }
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

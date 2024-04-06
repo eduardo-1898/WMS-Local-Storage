@@ -1,0 +1,462 @@
+﻿@model Services.Messaging.ViewModels.ConsultaViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="title">@ViewData["Title"] - CONDEFA WMS </title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/96937c0a4b.js" crossorigin="anonymous"></script>
+    <link href="~/vendor/full-calendar/main.css" rel="stylesheet" />
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/css/logoIndex.css" rel="stylesheet" />
+    <link href="~/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="~/vendor/datatables/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-float-label.min.css" rel="stylesheet" />
+    <link href="~/css/jquery.datetimepicker.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-select/select2.min.css" rel="stylesheet" />
+    <link href="~/vendor/bootstrap-select/bootstrap-select.css" rel="stylesheet" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                @await Html.PartialAsync("Partials/_horizontalMenu")
+
+
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="card shadow mb-4 border-bottom-primary">
+                            <div class="card-header py-2 d-flex justify-content-center">
+                                <h4><i class="fa fa-info"></i> Consulta de articulos </h4>
+                            </div>
+                            <div class="card-body">
+                                <form asp-action="ObtenerModelo" asp-controller="Consulta" method="post">
+                                    <div class="row mb-3">
+                                        <div class="col col-sm-10 col-md-4">
+                                            <input class="form-control" asp-for="detalleArticulo.ArticuloBusqueda" type="search" id="busqueda" placeholder="Articulo o serie" />
+                                        </div>
+                                        <div class="col col-sm-2 col-md-6">
+                                            <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-12 col-md-6">
+                                            <div class="row mb-3">
+                                                <div class="col-12">
+                                                    @if (Model == null || Model.detalleArticulo.codArt == null)
+                                                    {
+                                                        <label class="form-label">Codigo: <strong></strong></label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Codigo: <strong>@Model.detalleArticulo.codArt</strong></label>
+                                                    }
+                                                </div>
+                                                <div class="col-12">
+                                                    @if (Model == null || Model.detalleArticulo.Articulo == null)
+                                                    {
+                                                        <label class="form-label">Articulo:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Articulo: @Model.detalleArticulo.Articulo</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Tipo == null)
+                                                    {
+                                                        <label class="form-label">Trazable:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Trazable: @Model.detalleArticulo.Tipo</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Estado == null)
+                                                    {
+                                                        <label class="form-label">Estado:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Estado: @Model.detalleArticulo.Estado</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Lote == null)
+                                                    {
+                                                        <label class="form-label">Lote: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Lote: @Model.detalleArticulo.Lote</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Bodega == null)
+                                                    {
+                                                        <label class="form-label">BOD:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">BOD: @Model.detalleArticulo.Bodega</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.FechaVencimiento == null)
+                                                    {
+                                                        <label class="form-label">FV:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">FV: @Model.detalleArticulo.FechaVencimiento.Replace("00:00:00","").Replace("01/01/1900","")</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Localizacion == null)
+                                                    {
+                                                        <label class="form-label">LOC: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">LOC: @Model.detalleArticulo.Localizacion</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Consecutivo == null)
+                                                    {
+                                                        <label class="form-label">Consec: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Consec: @Model.detalleArticulo.Consecutivo</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.Documento == null)
+                                                    {
+                                                        <label class="form-label">Documento: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Documento: @Model.detalleArticulo.Documento</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.codigo1 == null)
+                                                    {
+                                                        <label class="form-label">Cod barras 1: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Cod barras 1: @Model.detalleArticulo.codigo1</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.codigo2 == null)
+                                                    {
+                                                        <label class="form-label">Cod barras 2:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Cod barras 2: @Model.detalleArticulo.codigo2</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.cabys == null)
+                                                    {
+                                                        <label class="form-label">Cabys: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Cabys: @Model.detalleArticulo.cabys</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.costo == null)
+                                                    {
+                                                        <label class="form-label">Costo:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Costo: @Model.detalleArticulo.costo.ToString("N2")</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.margen == null)
+                                                    {
+                                                        <label class="form-label">Margen: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Margen: @Model.detalleArticulo.margen.ToString("N2")</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.precioVenta == null)
+                                                    {
+                                                        <label class="form-label">Precio venta:</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Precio venta: @Model.detalleArticulo.precioVenta.ToString("N2")</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row mb-1">
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.iva == null)
+                                                    {
+                                                        <label class="form-label">Iva: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Iva: @Model.detalleArticulo.iva.ToString("N2")</label>
+                                                    }
+                                                </div>
+                                                <div class="col col-md-6 col-sm-12">
+                                                    @if (Model == null || Model.detalleArticulo.cantidad == null)
+                                                    {
+                                                        <label class="form-label">Cantidad: </label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="form-label">Cantidad: @Model.detalleArticulo.cantidad</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-hover" id="lotesTable" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Lote</th>
+                                                            <th>Fecha venc</th>
+                                                            <th>Cantidad</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null && Model.almacenArticulos != null)
+                                                        {
+                                                            @foreach (var item in Model.almacenArticulos)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.Propiedades</td>
+                                                                    <td>@item.Fecha.ToString("dd/MM/yyyy")</td>
+                                                                    <td>@item.Disponible</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <hr />
+                                            <br />
+
+                                            <div class="table-responsive">
+                                                <table class="table table-sm table-hover" id="bodegasTable" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Bodega</th>
+                                                            <th>Localización</th>
+                                                            <th>Disponible</th>
+                                                            <th>Reservado</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null && Model.bodegasArticulos != null)
+                                                        {
+                                                            @foreach (var item in Model.bodegasArticulos)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.Bodega</td>
+                                                                    <td>@item.Localizacion</td>
+                                                                    <td>@item.Disponible</td>
+                                                                    <td>@item.Reservado</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-sm" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Tipo_mov</th>
+                                                            <th>Doc</th>
+                                                            <th>Bod_org</th>
+                                                            <th>Loc_org</th>
+                                                            <th>Bod_dest</th>
+                                                            <th>Loc_dest</th>
+                                                            <th>Fecha</th>
+                                                            <th>Usuario</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @if (Model != null && Model.detalleDatamatrix != null)
+                                                        {
+                                                            @foreach (var item in Model.detalleDatamatrix)
+                                                            {
+                                                                <tr>
+                                                                    <td>@item.tipo_mov</td>
+                                                                    <td>@item.doc</td>
+                                                                    <td>@item.bod_org</td>
+                                                                    <td>@item.loc_org</td>
+                                                                    <td>@item.bod_dest</td>
+                                                                    <td>@item.loc_dest</td>
+                                                                    <td>@item.Fecha</td>
+                                                                    <td>@item.Usuario</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var baseUrl = "@Url.Content("~/")";
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#lotesTable').DataTable({
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
+                },
+                "lengthChange": false
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}

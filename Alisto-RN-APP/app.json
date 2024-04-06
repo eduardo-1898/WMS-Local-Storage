@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "name": "condefa-wms-app",
+    "slug": "condefa-wms-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/despacho.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/despacho.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/despacho.png",
+        "backgroundColor": "#ffffff"
+      },
+      "permissions":["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "ACESS_NETWORK_STATE"],
+      "package": "com.eduardo_jaen18.condefawmsapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8ad6ff2b-27f8-4d46-9991-ed19581b4d32"
+      }
+    }
+  }
+}

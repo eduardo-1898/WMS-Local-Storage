@@ -1,0 +1,63 @@
+﻿@model Services.Messaging.ViewModels.Etiquetas.EtiquetasView
+
+@{
+    ViewData["Title"] = "Diferencias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header d-flex">
+                <div class="col-12" align="center">
+                    <h4><i class="fa fa-receipt"></i> Diferencias Orden Compra @Model.OrdenCompra</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped text-center" width="100%" id="diferenciasModalTable" style="font-size:14px">
+                        <thead>
+                            <tr>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Cantidad Recibida</th>
+                                <th>Diferencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model.articulos)
+                            {
+                                <tr>
+                                    <td>@item.idArticulo</td>
+                                    <td>@item.Descripcion</td>
+                                    <td>@item.Cantidad</td>
+                                    <td>@item.CantidadTotal</td>
+                                    <td>@item.Diferencia</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/recibomerca/reciboList.js"></script>
+
+}

@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "Reimprimir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Reimpresión de etiquetas datamatrix</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col col-sm-12 col-md-4">
+                        <input id="txtArticuloB" class="form-control" placeholder="Articulo" />
+                    </div>
+                    <div class="col col-sm-12 col-md-4">
+                        <input id="txtSerieLoteB" class="form-control" placeholder="Serie lote" />
+                    </div>
+                    <div class="col col-sm-12 col-md-4">
+                        <button id="btnBuscar" class="btn btn-primary text-white">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mb-3">
+                    <div class="col">
+                        <label>Articulo</label>
+                        <input id="txtArticulo" class="form-control" readonly />
+                    </div>
+                    <div class="col">
+                        <label>Serie Lote</label>
+                        <input id="txtSerieLote" class="form-control" readonly />
+                    </div>
+                    <div class="col">
+                        <label>Rango de inicio</label>
+                        <input id="txtRangoInicio" class="form-control" type="number" min="0" />
+                    </div>
+                    <div class="col">
+                        <label>Rango de fin</label>
+                        <input id="txtRangoFinal" class="form-control" type="number" min="0" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button id="btnImprimir" class="btn btn-primary">
+                            Reimprimir <i class="fas fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+
+@section Scripts {
+    <script src="~/js/view/reimprimir/action.js"></script>
+}
+

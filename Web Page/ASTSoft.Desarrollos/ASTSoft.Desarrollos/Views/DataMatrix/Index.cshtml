@@ -1,0 +1,186 @@
+﻿@model Services.Messaging.ViewModels.Datamatrix.DatamatrixViewData
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Generación de etiquetas datamatrix</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col col-md-8 col-sm-12">
+                        <h5 class="text-center">Datos del articulo</h5>
+                        <hr />
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control" id="txtCodigoBarras" placeholder="Orden o articulo" />
+                            </div>
+                            <div class="col col-sm-6 col-md-2">
+                                <button class="btn btn-success" id="btnBuscarArticulo">Buscar <i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-3">
+                            <table class="table table-hover" width="100%" id="tableArticulos">
+                                <thead>
+                                    <tr>
+                                        <th>Orden</th>
+                                        @* <th>Tipo</th> *@
+                                        <th>Articulo</th>
+                                        <th>Descripcion</th>
+                                        @* <th>Documento</th> *@
+                                        <th>Cantidad</th>
+                                        <th>Cantidad Recibida</th>
+                                        <th>Fecha</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col col-md-4 col-sm-12 border-left-primary">
+                        <h5 class="text-center">Datos para impresion</h5>
+                        <hr />
+                        <input id="txtRenglon" readonly class="form-control" hidden />
+                        <input id="txtID" readonly class="form-control" hidden />
+                        <input id="txtTipo" readonly class="form-control" hidden />
+                        <input id="txtQr" readonly class="form-control" hidden />
+                        <input id="txtModulo" readonly class="form-control" hidden />
+                        <div class="row mb-3">
+                            <div class="col col-12 mb-2">
+                                <label for="txtEmbarque" class="form-label">Orden Compra</label>
+                                <input id="txtEmbarque" readonly class="form-control" />
+                            </div>
+                            <div class="col col-12 mb-2">
+                                <label for="txtArticulo" class="form-label">Artículo</label>
+                                <input id="txtArticulo" readonly class="form-control" />
+                            </div>
+                            <div class="col col-12 mb-2">
+                                <label for="txtDescripcion" class="form-label">Descripción</label>
+                                <input id="txtDescripcion" readonly class="form-control" />
+                            </div>
+                            <div id="LoteDatos">
+                                <div class="col col-12 mb-2">
+                                    <label for="txtLote" class="form-label">Lote</label>
+                                    <input id="txtLote" class="form-control" />
+                                </div>
+                                <div class="col col-12 mb-2">
+                                    <label for="txtFechaVencimiento" class="form-label">Fecha de vencimiento</label>
+                                    <input id="txtFechaVencimiento" class="form-control" placeholder="Formato yymmdd" />
+                                </div>
+                            </div>
+                            <div class="col col-12 mb-2">
+                                <label for="txtLote" class="form-label">Almacenes</label>
+                                <select id="slctAlmDestino" class="form-control">
+                                    <option value="">Seleccione un valor..</option>
+                                    @foreach (var item in Model.Almacenes)
+                                    {
+                                        <option value="@item.Almacen">@item.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <hr />
+                        <div id="imprimirDatos">
+                            <div class="row mb-3">
+                                <div class="col col-sm-12 col-md-12 mb-2">
+                                    <label class="form-check-label">Etiqueta de caja</label>
+                                    <input class="form-check-inline" type="checkbox" id="cbxConsecutivo" title="Consecutivo" />
+                                </div>
+                                <hr/>
+                                <div id="cajas" style="display:none; visibility:hidden">
+                                    <div class="col col-sm-12 col-md-6 mb-2">
+                                        <label class="form-label" for="cantidadCajas">Cantidad de cajas</label>
+                                        <input class="form-control" type="number" id="cantidadCajas" />
+                                    </div>
+                                    <div class="col col-sm-12 col-md-6 mb-2">
+                                        <label class="form-label" for="ArticulosCaja">Articulos x caja</label>
+                                        <input class="form-control" type="number" id="ArticulosCaja" />
+                                    </div>
+                                </div>
+                                <div class="col col-sm-12 col-md-12 mb-2">
+                                    Revisado por:
+                                    <select id="slctRevisado" class="form-control">
+                                        <option value="">Seleccione un valor..</option>
+                                        @foreach (var item in Model.Usuarios.Where(x => x.Estado == true))
+                                        {
+                                            <option value="@item.Id">@item.Nombre</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="row mb-3" id="cantidades">
+                            <div class="col col-sm-12 col-md-4">
+                                <label for="txtRecibidas" class="form-label">Recibidas</label>
+                                <input class="form-control" id="txtRecibidas" title="Recibidas" readonly />
+                            </div>
+                            <div class="col col-sm-12 col-md-4">
+                                <label for="txtDisponibles" class="form-label">Disponibles</label>
+                                <input class="form-control" id="txtDisponibles" title="Disponibles" readonly />
+                            </div>
+                            <div class="col col-sm-12 col-md-4">
+                                <label for="txtImprimir" class="form-label">Imprimir</label>
+                                <input class="form-control" id="txtImprimir" type="number" min="0" title="Imprimir" />
+                            </div>
+                        </div>
+                        <div class="row mb-3" id="boton">
+                            <div class="col col-12">
+                                <button class="btn btn-primary w-100" id="btnImprimir">
+                                    Generar <i class="fas fa-print"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/datamatrix/list.js"></script>
+    <script src="~/js/view/datamatrix/action.js"></script>
+}
+

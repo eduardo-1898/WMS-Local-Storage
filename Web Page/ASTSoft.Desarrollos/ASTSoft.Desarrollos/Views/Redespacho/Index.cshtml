@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Pedidos por rutas </h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="fechaInicio">Fecha inicio: </label>
+                        <input class="form-control" type="date" id="fechaInicio" />
+                    </div>
+                    <div class="col">
+                        <label for="fechaFin">Fecha final: </label>
+                        <input class="form-control" type="date" id="fechaFin" />
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success mb-3">
+                    Buscar <i class="fas fa-search"></i>
+                </button>
+                <div class="table-responsive">
+                    <table class="table table-hover" width="100%" id="redespachoTable">
+                        <thead>
+                            <tr>
+                                <th>Consecutivo</th>
+                                <th>Ruta</th>
+                                <th>Pedido</th>
+                                <th>Bulto</th>
+                                <th>Estado</th>
+                                <th>Justificación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/Redespacho/list.js"></script>
+}

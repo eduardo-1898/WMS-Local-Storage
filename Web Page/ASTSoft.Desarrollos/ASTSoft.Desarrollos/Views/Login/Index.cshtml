@@ -1,0 +1,68 @@
+﻿@model Services.Messaging.ViewModels.AST_Usuarios.AST_UsuariosView
+
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/css/login/main.css" rel="stylesheet" />
+<link href="~/css/login/util.css" rel="stylesheet" />
+<div class="limiter">
+    <div class="container-login100 bg-dark">
+        <div class="wrap-login100 ">
+            <div class="login100-form-title" style="background-image: url(../../img/Condefa.png)">
+
+            </div>
+            <br />
+            @if (TempData["MessageAction"] != null)
+            {
+
+                <div class="row mt15">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="alert alert-success" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <span class="font-weight-bolder">Aviso:&nbsp;</span>@TempData["MessageAction"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (TempData["MessageError"] != null)
+            {
+                <div class="row mt15">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <span class="font-weight-bolder">Aviso:&nbsp;</span>@TempData["MessageError"]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            <form class="login100-form" asp-action="Login" asp-controller="Login" method="post">
+                <div class="wrap-input100 m-b-26 form-group">
+                    <span class="label-input100">Usuario</span>
+                    <input asp-for="usuario" name="usuario" class="input100" type="text" placeholder="Ingrese el usuario">
+                </div>
+                <div class="wrap-input100 m-b-18 form-group">
+                    <span class="label-input100">Contraseña</span>
+                    <input asp-for="contrasenna" name="contrasenna" class="input100" type="password" placeholder="Ingrese la contraseña">
+                </div>
+                <div class="container-login100-form-btn offset-7">
+                    <button type="submit" class="btn btn-primary">
+                        Ingresar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

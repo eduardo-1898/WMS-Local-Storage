@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4 border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-plus"></i> Crear documento de empaque </h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <button type="button" class="btn btn-success" id="btnCrear">
+                            <i class="fas fa-plus"></i>
+                            Crear documento
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="docuentosTable" class="table table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Documento</th>
+                                <th>Fecha de creacion</th>
+                                <th>Usuario generador</th>
+                                <th>Cantidad de pedidos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Asociar pedidos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col col-6">
+                        <input class="form-control" readonly type="text" id="txtConsecutivo2" hidden />
+                        <input class="form-control" readonly type="text" id="txtConsecutivo" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <input class="form-control" placeholder="Pedido" id="txtPedido" />
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success" type="button" id="btnAsociar"><i class="fas fa-plus"></i> Asociar pedido</button>
+                    </div>
+                </div>
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="tableDetalle" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Fecha de asociacion</th>
+                                <th>Cantidad de bultos</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalDetalle').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/etiquetas/action.js"></script>
+    <script src="~/js/view/etiquetas/list.js"></script>
+
+
+}

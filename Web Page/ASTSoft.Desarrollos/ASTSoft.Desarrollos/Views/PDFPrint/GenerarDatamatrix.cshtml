@@ -1,0 +1,59 @@
+﻿@model List<Services.Messaging.ViewModels.Util.EtiquetasModel>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "GenerarDatamatrix";
+    Layout = null;
+    int contador = 0;
+}
+
+
+<table width="100%">
+    <tbody>
+        @for (int i = 0; i < Math.Ceiling((Convert.ToDecimal(Model.Count) / Convert.ToDecimal(6))); i++)
+        {
+            <tr>
+                @if ((contador + 6) < Model.Count)
+                {
+                    string src1 = string.Format("data:image/png;base64,{0}", Model[contador].qr + contador);
+                    string src2 = string.Format("data:image/png;base64,{0}", Model[contador + 1].qr);
+                    string src3 = string.Format("data:image/png;base64,{0}", Model[contador + 2].qr);
+                    string src4 = string.Format("data:image/png;base64,{0}", Model[contador + 3].qr);
+                    string src5 = string.Format("data:image/png;base64,{0}", Model[contador + 4].qr);
+                    string src6 = string.Format("data:image/png;base64,{0}", Model[contador + 5].qr);
+
+                    <td style="width:16%" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src1" /> <br /><span style="font-size:15px;">@Model[contador].consecutivoReal</span> </td>
+                    <td style="width:16%" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src2" /> <br /><span style="font-size:15px;">@Model[contador + 1].consecutivoReal</span> </td>
+                    <td style="width:16%" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src3" /> <br /><span style="font-size:15px;">@Model[contador + 2].consecutivoReal</span></td>
+                    <td style="width:16%" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src4" /> <br /><span style="font-size:15px;">@Model[contador + 3].consecutivoReal</span></td>
+                    <td style="width:16%" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src5" /> <br /><span style="font-size:15px;">@Model[contador + 4].consecutivoReal</span></td>
+                    <td style="width:16%;padding-left:10px" colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src6" /> <br /><span style="font-size:15px;">@Model[contador + 5].consecutivoReal</span></td>
+                    contador += 6;
+                }
+                else
+                {
+                    int cantidad = (Model.Count) - contador;
+                    for (int k = 0; k < cantidad; k++)
+                    {
+                        string src = string.Format("data:image/png;base64,{0}", Model[contador].qr);
+                        <td colspan="2" class="text-center"><img alt="" style="height:35px; width:35px;" src="@src" /> <br /> <span style="font-size:15px;">@Model[contador].consecutivoReal</span></td>
+                        contador += 1;
+                    }
+                    /*JEREMY 19/02/2024 SI EL MODEL.COUNT ES MENOR A 6 METEMOS ESPACIOS EN BLANCO*/
+                    if (Model.Count < 6)
+                    {
+                        for (int f = 0; f < 6 - (Model.Count); f++)
+                        {
+                            <td colspan="2" class="text-center"><span style="height:35px; width:35px;color:white;">000001</span> <br /> </td>
+                        }
+                    }
+                    /*JEREMY 19/02/2024 SI EL MODEL.COUNT ES MENOR A 6 METEMOS ESPACIOS EN BLANCO*/
+
+
+                    contador += cantidad;
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,52 @@
+﻿<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+    <div class="displayimg align-content-lg-start">
+        <a asp-controller="Home" asp-action="Index">
+            <img src="~/img/Condefa.png" style="height:60px" />
+        </a>
+
+    </div>
+    <ul class="navbar-nav ml-auto">
+
+        <div class="displaydate">
+            @* <span id="date"></span> *@
+        </div>
+        <div class="topbar-divider d-none d-sm-block"></div>
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link" href="#" id="" role="button">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                <img class="img-profile rounded-circle" src="~/img/user.webp">
+                <form asp-action="LogOutAction" asp-controller="Login" method="post">
+                    <button type="submit" class="btn"><i class="fa fa-long-arrow-alt-left"></i> SALIR</button>
+                </form>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<style>
+    .displaydate {
+        padding-top: 25px;
+    }
+    .displayimg {
+        padding-top: 5px;
+       align-content: initial;
+    }
+</style>
+<script>
+    document.getElementById("date").innerHTML = formatAMPM();
+
+    function formatAMPM() {
+        var d = new Date(),
+            minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+            hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+            ampm = d.getHours() >= 12 ? 'pm' : 'am',
+            months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        return days[d.getDay()] + ' ' + ' ' + d.getDate() + ' de ' + months[d.getMonth()] + ' de ' + d.getFullYear() + ' ' + hours + ':' + minutes + ' ' + ampm;
+    }
+</script>

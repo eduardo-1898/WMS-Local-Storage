@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewData["Title"] = "Pre_despacho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Pre despacho </h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-3 row">
+                    <div class="col col-3 input-group">
+                        <input class="form-control text-center" type="text" placeholder="Etiqueta" ondblclick="$('#modalEtiqueta').modal('show')" />
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Cliente</th>
+                                <th>Nombre</th>
+                                <th>Observacion</th>
+                                <th>Estado</th>
+                                <th>Proceso</th>
+                                <th>Pro</th>
+                                <th>Ruta</th>
+                                <th>Fecha</th>
+                                <th>Usuario</th>
+                                <th>Fecha de empacado</th>
+                                <th>Usuario Alistador</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEtiqueta" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Seleccionar un chofer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="clienteTable2" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalEtiqueta').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+

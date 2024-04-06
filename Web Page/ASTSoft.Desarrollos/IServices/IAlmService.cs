@@ -1,0 +1,14 @@
+﻿using Services.Messaging.ViewModels.Alm;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace IServices
+{
+    public interface IAlmService
+    {
+        public List<AlmView> ObtenerAlmacenes();
+    }
+}

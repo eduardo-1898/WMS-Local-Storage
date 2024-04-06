@@ -1,0 +1,310 @@
+﻿@model Services.Messaging.ViewModels.Etiquetas.EtiquetasView
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header d-flex">
+                <div class="col-10">
+                    <h4><i class="fa fa-receipt"></i> Recibo de Mercadería </h4>
+                </div>
+                <div class="col-2" align="right">
+                    @if(Model.Finalizado)
+                    {
+                        <button type="button" onclick="mostrarDiferencias()" class="btn btn-success"><i class="fa fa-file"></i> Diferencias</button>
+                    } else
+                    {
+                        if(Model.articulos.Count > 0)
+                        {
+                            <button type="button" onclick="finalizar()" class="btn btn-success"><i class="fa fa-step-forward"></i> Finalizar</button>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-action="Index" asp-controller="ReciboMercaderia">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <input id="ordenCompra" class="form-control" placeholder="Orden Compra" asp-for="OrdenCompra" required maxlength="20" />
+                        </div>
+                        <div class="col col-2">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+                            <button type="button" onclick="mostrarBuscador()" class="btn btn-success"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <h4 class="text-center mb-3"> Artículos de Orden Compra </h4>
+                @if (Model != null && Model.articulos.Count > 0)
+                {
+                    <div class="row mt-3 mb-2" style="display: flex;justify-content: left;">
+                        <div class="col-4 d-flex" align="left">
+                            <label class="col-6"><strong>Cantidad:</strong> @Model.Cantidad</label>
+                        </div>
+                    </div>
+                }
+                @if(Model != null && Model.articulos.Count > 0 && !Model.Finalizado)
+                {
+                    <div class="row mt-3 mb-2" style="display: flex;justify-content: end;">
+                        <div class="col-8 d-flex" align="right">
+                            <label class="col-6">Escanear código: </label>
+                            <input type="text" id="codigoBarras" class="form-control" autofocus/>
+                        </div>
+                    </div>
+                }
+                <div class="table-responsive">
+                    <table class="table table-hover" id="artTable">
+                        <thead>
+                            <tr>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Cant. Recibida</th>
+                                <th>Diferencia</th>
+                                <th>Código Barras</th>
+                                <th>Código Barras Ant</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model.articulos)
+                                {
+                                    <tr>
+                                        <td>@item.idArticulo</td>
+                                        <td>@item.Descripcion</td>
+                                        <td>@item.Cantidad</td>
+                                        <td>@item.CantidadRecibida</td>
+                                        <td>@item.Diferencia</td>
+                                        <td>@item.AST_CodigoBarras</td>
+                                        <td>@item.AST_CodigoBarrasAnt</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalBuscador">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-12 d-flex justify-content-center">
+                    <h6 class="modal-title">Buscador</h6>
+                    <button type="button" class="close btn btn-light" data-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <input id="filtro" class="form-control" placeholder="Artículo/Código Barras" asp-for="Filtro" required maxlength="20" />
+                    </div>
+                    <div class="col col-2">
+                        <button type="button" onclick="buscarArtFiltro()" class="btn btn-success"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <hr />
+                <h4 class="text-center mb-3"> Detalle </h4>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="artDetalleTable">
+                        <thead>
+                            <tr>
+                                <th>Orden Compra</th>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Cant. Recibida</th>
+                                <th>Diferencia</th>
+                                <th>Código Barras</th>
+                                <th>Código Barras Ant</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalArticulos">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-10 d-flex justify-content-center">
+                    <h5 class="modal-title">Cantidad Recibida: </h5>
+                    <input type="number" id="cantidadRecibida" class="form-control text-center" style="width:auto" />
+                    <h5 style="margin-left: 6%;margin-top: 1%;" id="tipoArticulo"></h5>
+                    <input type="number" id="cantidadMaxima" class="form-control text-center" hidden/>
+                </div>
+                <button type="button" class="close btn btn-light" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <form>
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center" width="100%" id="artModalTable" style="font-size:14px">
+                            <thead>
+                                <tr>
+                                    <th>Articulo</th>
+                                    <th>Descripción</th>
+                                    <th>Bonificado</th>
+                                    <th>Código Barras</th>
+                                    <th>Código Barras Ant</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background: #214e7c;color: white;" onclick="guardarCantidad()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalDiferencias">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Diferencias Orden Compra <span id="numOrdenCompra"></span></h5>
+                <button type="button" class="close btn btn-light" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <form>
+                    <div class="col-12" align="right">
+                        <button class="btn btn-success" type="button" onclick="descargar()">Descargar Excel</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center" width="100%" id="diferenciasModalTable" style="font-size:14px">
+                            <thead>
+                                <tr>
+                                    <th>Articulo</th>
+                                    <th>Descripción</th>
+                                    <th>Código Barras</th>
+                                    <th>Código Barras Ant</th>
+                                    <th>Cantidad</th>
+                                    <th>Cantidad Recibida</th>
+                                    <th>Diferencia</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background: #214e7c;color: white;" onclick="popUpEnviar()">Enviar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalEnviarCorreo">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enviar documento por Correo</h5>
+                <button type="button" class="close btn btn-light" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <form>
+                    <div class="col-12">
+                        <label for="correo" style="font-size:14px">Correo: </label>
+                        <input id="correo" type="email" class="form-control"  />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background: #214e7c;color: white;" onclick="enviarCorreo()">Confirmar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="msjConfirmacion">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" align="center">Confirmación de finalizado</h5>
+                <button type="button" class="close btn btn-light" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" style="font-size:12px">
+                <form>
+                    <label for="correo" style="font-size:14px">Existen artículos sin encanear, está seguro que desea finalizar el escaneo? </label>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="background: #214e7c;color: white;" onclick="confirmar()">Confirmar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/recibomerca/reciboList.js"></script>
+
+}

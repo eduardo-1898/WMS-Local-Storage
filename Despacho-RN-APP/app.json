@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "despacho-wms-condefa",
+    "slug": "despacho-wms-condefa",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/despacho.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/despacho.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/despacho.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.eduardo_jaen18.despachowmscondefa"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "07a8c47d-e320-456a-8e6a-e8e67a03f145"
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+﻿
+@model Services.Messaging.ViewModels.Despachos.DespachosView
+
+@{
+    Layout = null;
+    var despacho = (Model != null) ? Model.NumeroDespacho : "";
+    var ruta = (Model != null) ? Model.Ruta : "";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+
+    #header {
+        font-size:15px;
+    }
+
+</style>
+
+<div class="container-fluid">
+    <br />
+    <table id="header" width="100%">
+        <thead>
+            <tr>
+                <th>CORPORACION NACIONAL DE FARMACIAS</th>
+                <td>
+                    <strong>DOCUMENTO DESPACHO: @despacho</strong> 
+                </td>
+
+                <td><strong>Fecha de generación:</strong> @DateTime.Now.ToString("dd/MM/yyyy") </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td colspan="6">RUTA: @ruta</td>
+            </tr>
+        </thead>
+    </table>
+    <br />
+    <br />
+    <div class="table-responsive">
+        <table class="table" width="100%">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Nombre</th>
+                    <th>Pedido</th>
+                    <th>Detalle</th>
+                    <th>Bultos</th>
+                </tr>
+            </thead>
+            @if (Model!=null)
+            {
+                <tbody>
+                @foreach (var item in Model.Pedidos)
+                {
+                    <tr>
+                        <td>@item.cliente</td>
+                        <td>@item.nombre</td>
+                        <td>@item.pedido</td>
+                        <td>@item.observ</td>
+                        <td>@item.bultos</td>
+                    </tr>
+                }
+                </tbody>
+            }
+        </table>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Historial de registros </h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="fechaInicio">Fecha inicio: </label>
+                        <input class="form-control" type="date" id="fechaInicio" />
+                    </div>
+                    <div class="col">
+                        <label for="fechaFin" >Fecha final: </label>
+                        <input class="form-control" type="date" id="fechaFin" />
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success mb-3">
+                    Buscar <i class="fas fa-search"></i>
+                </button>
+                <div class="table-responsive">
+                    <table class="table table-hover" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Cliente</th>
+                                <th>Nombre</th>
+                                <th>Observacion</th>
+                                <th>Estado</th>
+                                <th>Proceso</th>
+                                <th>Pro</th>
+                                <th>Ruta</th>
+                                <th>Fecha</th>
+                                <th>Usuario</th>
+                                <th>Fecha de empacado</th>
+                                <th>Usuario Alistador</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}

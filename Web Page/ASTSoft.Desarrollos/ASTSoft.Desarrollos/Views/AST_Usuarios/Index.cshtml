@@ -1,0 +1,84 @@
+﻿@model List<Services.Messaging.ViewModels.AST_Usuarios.AST_UsuariosView>
+
+@{
+    ViewData["Title"] = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header" style="background:#214e7f;color:white">
+                <i class="fas fa-users"></i>
+                <label>Usuarios</label>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-sm btn-success" style="float:right" asp-action="Agregar" asp-controller="AST_Usuarios"><i class="fas fa-plus"></i> Agregar</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped text-center" width="100%" id="usuariosTable" style="font-size:14px">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Estatus</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalProcess">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background: transparent; border-color: transparent;">
+            <div class="modal-body text-center">
+                <img src="~/img/loader.gif" style="width:30%" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/js/View/AST_Usuarios/list.js"></script>
+}
+
+
+@if (ViewBag.Mensaje != null && ViewBag.Mensaje == "ExitoA")
+{
+    <script>
+        Swal.fire(
+            'Éxito',
+            'El usuario se ha agregado exitosamente.',
+            'success'
+        )
+    </script>
+}
+
+@if (ViewBag.Mensaje != null && ViewBag.Mensaje == "ExitoE")
+{
+    <script>
+        Swal.fire(
+            'Éxito',
+            'El usuario se ha modificado exitosamente.',
+            'success'
+        )
+    </script>
+}

@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-list-ul"></i> Información de movimientos </h4>
+            </div>
+            <div class="card-body">
+
+                <ul class="nav nav-tabs mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#bodegas">Bodegas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#alistado">Alistando</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#empacado">Empacando</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#predespacho">Pre despacho</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#despacho">Despacho</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="bodegas" class="tab-pane active">
+                        <div class="table-responsive">
+                            <table class="table table-hover" width="100%" id="tableBodega">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Observacion</th>
+                                        <th>Pro</th>
+                                        <th>Cantidad de prod</th>
+                                        <th>Ruta</th>
+                                        <th>Fecha</th>
+                                        <th>Bodegas</th>
+                                        <th>Vendedor</th>
+                                        <th>Usuario</th>
+                                        <th>Usuario bod 112</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="alistado" class="tab-pane">
+                        <div class="table-responsive">
+                            <table class="table table-hover" width="100%" id="tableAlistado">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Observacion</th>
+                                        <th>Pro</th>
+                                        <th>Ruta</th>
+                                        <th>Fecha</th>
+                                        <th>Bodegas</th>
+                                        <th>Usuario</th>
+                                        <th>Hora</th>
+                                        <th>Alistador</th>
+                                        <th>Alistador bodega 112</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="empacado" class="tab-pane">
+                        <div class="table-responsive">
+                            <table class="table table-hover" width="100%" id="tableEmpacado">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Observacion</th>
+                                        <th>Pro</th>
+                                        <th>Ruta</th>
+                                        <th>Documento</th>
+                                        <th>Fecha Inicial</th>
+                                        <th>Fecha Final</th>
+                                        <th>Diferencia Minutos</th>
+                                        <th>Usuario Alistador</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="predespacho" class="tab-pane">
+                        <div class="table-responsive">
+                            <table class="table table-hover" width="100%" id="tablePredespacho">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Observacion</th>
+                                        <th>Pro</th>
+                                        <th>Ruta</th>
+                                        <th>Documento</th>
+                                        <th>Usuario</th>
+                                        <th>Fecha de empacado</th>
+                                        <th>Usuario Alistador</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="despacho" class="tab-pane">
+                        <div class="table-responsive">
+                            <table class="table table-hover" width="100%" id="tableDespacho">
+                                <thead>
+                                    <tr>
+                                        <th>Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Nombre</th>
+                                        <th>Observacion</th>
+                                        <th>Pro</th>
+                                        <th>Ruta</th>
+                                        <th>Documento</th>
+                                        <th>Usuario</th>
+                                        <th>Fecha de empacado</th>
+                                        <th>Usuario Alistador</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="modalDetalle" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Detalle de listado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="tableDetalle" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Articulo</th>
+                                <th>Descripcion</th>
+                                <th>Linea</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalDetalle').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConductor" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Seleccionar un chofer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="clienteTable2" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Chofer</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalConductor').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalPedido" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Seleccionar un chofer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="clienteTable2" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Pedido</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalPedido').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEtiqueta" tabindex="-1" role="dialog" aria-labelledby="OrdenarModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-edit"></i> Seleccionar un chofer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive justify-content-center">
+                    <table class="table table-bordered table-striped table-hover" width="100%" id="clienteTable2" style="text-align:center;">
+                        <thead>
+                            <tr>
+                                <th>Etiqueta</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="$('#modalEtiqueta').modal('hide')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/procesos/listbodega.js"></script>
+    <script src="~/js/view/procesos/listalistado.js"></script>
+    <script src="~/js/view/procesos/listempacado.js"></script>
+    <script src="~/js/view/procesos/listhistorial.js"></script>
+    <script src="~/js/view/procesos/listpredespacho.js"></script>
+    <script src="~/js/view/procesos/listdespacho.js"></script>
+
+}

@@ -1,0 +1,197 @@
+﻿@model Services.Messaging.ViewModels.Etiquetas.EtiquetasView
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow mb-4  border-bottom-primary">
+            <div class="card-header py-2 d-flex justify-content-center">
+                <h4><i class="fa fa-print"></i> Imprimir etiquetas </h4>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-action="BusquedaPedido" asp-controller="Etiquetas">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <input class="form-control" placeholder="Canasta/Pedido" asp-for="PedidoConsulta" required />
+                        </div>
+                        <div class="col col-1">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-search"></i></button>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-success text-white" asp-action="Crear" asp-controller="Etiquetas"><i class="fas fa-plus"></i> Nuevo documento</a>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <h4 class="text-center mb-3"> Datos del pedido </h4>
+                <div class="row mb-3">
+                    <div class="col col-md-6">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="txtAlistador" class="form-label" >Usuario alistador:</label>
+                                <input id="txtAlistador"  class="form-control" readonly asp-for="Alistador"/>
+                            </div>
+                            <div class="col">
+                                <label for="txtPedido" class="form-label">Pedido:</label>
+                                <input id="txtPedido" class="form-control" readonly asp-for="Pedido"/>
+                            </div>
+                            <div class="col">
+                                <label for="txtBultos" class="form-label">Bultos:</label>
+                                <input id="txtBultos" class="form-control" asp-for="Bultos"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="txtCliente" class="form-label">Cliente:</label>
+                                <input id="txtCliente" class="form-control" readonly asp-for="Cliente" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="txtLugar" class="form-label">Ruta:</label>
+                                <input id="txtLugar" class="form-control" readonly asp-for="Ruta" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="status">Usuario</label>
+                                <select class="form-control" type="text" id="slctUsuario" asp-for="usuario">
+                                    <option value="">seleccione una opción..</option>
+                                    @if (Model != null)
+                                    {
+                                        @foreach (var item in Model.usuarios)
+                                        {
+                                            <option value="@item.usuario">@item.Nombre</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="txtObservacion" class="form-label">Observación:</label>
+                                <textarea id="txtObservacion" class="form-control" style="resize: none;" readonly asp-for="Observacion"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="txtObservacionExtra" class="form-label">Observaciones Extra:</label>
+                                <textarea id="txtObservacionExtra" class="form-control" style="resize: none;"  asp-for="AST_ObservacionesExtraEtiquetado"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-4">
+                                <button class="btn btn-success mt-2" id="btnSendCodes">Confirmar <i class="fas fa-save"></i></button>
+                            </div>
+                            <div class="col col-4">
+                                @if (Model != null && Model.Pedido != null && Model.Bultos != 0 && Model.cantidadSinLeer < 1)
+                                {
+                                    <a target="_blank" class="btn btn-success mt-2" asp-action="ImprimirEtiqueta" asp-controller="Etiquetas" asp-route-pedido="@Model.Pedido" asp-route-cantidad="@Model.Bultos" asp-route-fragil="@Model.Fragil">Imprimir <i class="fas fa-print"></i></a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="table-responsive mt-3">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Canasta</th>
+                                        <th>Leida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        var count = 0;
+                                        @foreach (var item in Model.canastas)
+                                        {
+                                            <tr>
+                                                <td>@item.Canasta</td>
+                                                <td>@item.Leida</td>
+                                            </tr>
+                                            count++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Linea</th>
+                                <th>Articulo</th>
+                                <th>Descripción</th>
+                                <th>Cantidad escaneada</th>
+                                <th>Cantidad total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null )
+                            {
+                                @foreach (var item in Model.articulos)
+                                {
+                                    <tr>
+                                        <td>@item.renglon</td>
+                                        <td>@item.idArticulo</td>
+                                        <td>@item.Descripcion</td>
+                                        <td>@item.CantidadEscaneado</td>
+                                        <td>@item.CantidadTotal</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@if (TempData["ErrorMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurrido un error..',
+            html: '@TempData["ErrorMesagge"].ToString()'
+        })
+    </script>
+}
+
+@if (TempData["SuccessMesagge"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Proceso ejecutado con éxito',
+            html: '@TempData["SuccessMesagge"].ToString()'
+        })
+    </script>
+}
+
+@section Scripts {
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/vendor/bootbox/popper.min.js"></script>
+    <script src="~/vendor/bootbox/bootstrap.min.js"></script>
+    <script src="~/vendor/bootbox/bootbox.min.js"></script>
+    <script src="~/js/view/etiquetas/action.js"></script>
+
+}

@@ -1,0 +1,121 @@
+﻿@model Services.Messaging.ViewModels.AST_Usuarios.AST_UsuariosView
+
+@{
+    ViewData["Title"] = "Agregar Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <form method="post" asp-action="AgregarUsuario" asp-controller="AST_Usuarios">
+            <div class="card">
+                <div class="card-header" style="background:#214e7f;color:white">
+                    <i class="fas fa-plus"></i>
+                    Agregar Usuario
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label class="col-6" for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" asp-for="Nombre" placeholder="Nombre" required />
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label class="col-6" for="usuario">Usuario:</label>
+                            <input type="text" class="form-control" id="usuario" asp-for="usuario" placeholder="Usuario" required />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label class="col-6" for="contrasena">Contraseña:</label>
+                            <input type="text" class="form-control" id="contrasena" asp-for="contrasenna" placeholder="Contraseña" required />
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <label class="col-6" for="marca">Estatus:</label>
+                            <select class="form-control" id="selectEstatus" asp-for="Estatus">
+                                <option value="ALTA">ALTA</option>
+                                <option value="BAJA">BAJA</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <label class="col-6" for="almacen">Almacén</label>
+                            <select id="almacen" class="form-control" asp-for="AlmacenAsignado" asp-items="Model.Almacenes">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <h6 class="col-12" align="center" style="background: #f1f1f1;padding: 2px">
+                            Asignar Permisos
+                        </h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="alisto" asp-for="AST_Alisto" />
+                            <label class="col-6" for="alisto">Alisto</label>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="despacho" asp-for="AST_Despacho" />
+                            <label class="col-6" for="despacho">Despacho</label>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="bultos" asp-for="AST_Bultos" />
+                            <label class="col-6" for="bultos">Bultos</label>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="supervisor" asp-for="AST_Supervisor" />
+                            <label class="col-6" for="supervisor">Supervisor</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="reimpresion" asp-for="AST_Reimpresion" />
+                            <label class="col-6" for="reimpresion">Reimpresión</label>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="impresion" asp-for="AST_impresion" />
+                            <label class="col-6" for="impresion">Impresión</label>
+                        </div>
+                        <div class="col-sm-6 col-md-3 col-lg-3">
+                            <input type="checkbox" id="web" asp-for="AST_WEB" />
+                            <label class="col-6" for="web">Web</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mt-2">
+                            <div align="right">
+                                <button class="btn btn-success" type="submit"><i class="fas fa-plus"></i> Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/vendor/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/vendor/datatables/jszip.min.js"></script>
+    <script src="~/vendor/datatables/pdfmake.min.js"></script>
+    <script src="~/vendor/datatables/vfs_fonts.js"></script>
+    <script src="~/vendor/datatables/buttons.html5.min.js"></script>
+    <script src="~/vendor/datatables/buttons.print.min.js"></script>
+    <script src="~/vendor/datatables/buttons.colVis.min.js"></script>
+    <script src="~/js/View/AST_Usuarios/list.js"></script>
+}
+
+
+@if (ViewBag.Mensaje != null && ViewBag.Mensaje == "Error")
+{
+    <script>
+        Swal.fire(
+            'Error',
+            'Error al agregar el registro, intente nuevamente.',
+            'error'
+        )
+    </script>
+}
